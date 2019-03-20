@@ -5,6 +5,7 @@ import lombok.Data;
 /**
  * Created by zhangpk on 2019/3/19
  **/
+@Data
 public class ServletMapping {
 
     private String servletName;
@@ -17,27 +18,5 @@ public class ServletMapping {
         this.clazz = clazz;
     }
 
-    public String getServletName() {
-        return servletName;
-    }
 
-    public void setServletName(String servletName) {
-        this.servletName = servletName;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public String getClazz() {
-        return clazz;
-    }
-
-    public void setClazz(String clazz) {
-        this.clazz = clazz;
-    }
 }
