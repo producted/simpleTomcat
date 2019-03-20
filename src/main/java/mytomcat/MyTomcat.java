@@ -1,5 +1,7 @@
 package mytomcat;
 
+import org.springframework.util.StringUtils;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -32,16 +34,19 @@ public class MyTomcat {
             serverSocket = new ServerSocket(port);
             System.out.println("MyTomcat is start ....!");
 
-            Socket socket = serverSocket.accept();
-            InputStream inputStream = socket.getInputStream();
-            OutputStream outputStream = socket.getOutputStream();
+            while (true) {
+                Socket socket = serverSocket.accept();
+                InputStream inputStream = socket.getInputStream();
+                OutputStream outputStream = socket.getOutputStream();
 
-            MyRequest myRequest = new MyRequest(inputStream);
-            MyResponse myResponse = new MyResponse(outputStream);
+                MyRequest myRequest = new MyRequest(inputStream);
+                MyResponse myResponse = new MyResponse(outputStream);
+                //请求分发
+                dispath(myRequest,myResponse);
+                socket.close();
+            }
 
-            //请求分发
-            dispath(myRequest,myResponse);
-            socket.close();
+
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -69,14 +74,22 @@ public class MyTomcat {
 
         //反射
         try {
-            Class<MyServlet> myServletClass = (Class<MyServlet>)Class.forName(clazz);
-            MyServlet myServlet = myServletClass.newInstance();
-            myServlet.service(request,response);
+            if (!StringUtils.isEmpty(clazz)){
+                Class<MyServlet> myServletClass = (Class<MyServlet>)Class.forName(clazz);
+                MyServlet myServlet = myServletClass.newInstance();
+                myServlet.service(request,response);
+            }else {
+                String content = "404 not found!";
+                response.write(content);
+            }
+
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

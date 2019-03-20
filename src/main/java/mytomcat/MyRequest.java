@@ -30,6 +30,13 @@ public class MyRequest {
         int length = 0;
         if ((length = inputStream.read(httpRequestBytes)) > 0) {
             httpRequest = new String(httpRequestBytes, 0, length);
+            String httpHead = httpRequest.split("\n")[0];
+            url = httpHead.split("\\s")[1];
+            method = httpHead.split("\\s")[0];
+            System.out.println(this.toString());
+        }else {
+            url = "";
+            method = "";
         }
 
 //            请求行length请求行Http请求协议
@@ -38,9 +45,6 @@ public class MyRequest {
 //            请求编码：Accept-Encoding:gzip,deflate
 //            Host：localhost:8080
 //            Connection:Keep-Alive
-        String httpHead = httpRequest.split("\n")[0];
-        url = httpHead.split("\\s")[1];
-        method = httpHead.split("\\s")[0];
-        System.out.println(this.toString());
+
     }
 }
