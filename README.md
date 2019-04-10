@@ -2,7 +2,7 @@
 
 手写一个迷你版的tomcat，很简单！
 
-##预览
+## 预览
 
 ![custom cat](https://uacoding.cn/images/other/customCat.png)
 
